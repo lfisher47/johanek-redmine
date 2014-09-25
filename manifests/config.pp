@@ -47,7 +47,8 @@ class redmine::config {
   }
 
   apache::vhost { 'redmine':
-    port          => '80',
+    port          => '443',
+    ssl           => true,
     docroot       => "${redmine::webroot}/public",
     servername    => $::fqdn,
     serveraliases => $redmine::vhost_aliases,
