@@ -76,6 +76,9 @@ class redmine (
   $database_server      = 'localhost',
   $database_user        = 'redmine',
   $database_password    = 'redmine',
+  $db_port              = 'UNSET',
+  $db_database          = 'UNSET',
+  $db_sslmode           = 'UNSET',
   $production_database  = 'redmine',
   $development_database = 'redmine_development',
   $database_adapter     = 'mysql',
@@ -87,12 +90,13 @@ class redmine (
   $smtp_password        = '',
   $vhost_aliases        = 'redmine',
   $webroot              = '/var/www/html/redmine',
+  $install_type         = 'rpm',
 ) {
 
   class { 'redmine::params': } ->
   class { 'redmine::install': } ->
   class { 'redmine::config': } ->
-  class { 'redmine::database': } ->
+  class { "redmine::$database_adapter": } ->
   class { 'redmine::rake': }
 
 }
