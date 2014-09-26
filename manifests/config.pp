@@ -22,8 +22,9 @@ class redmine::config {
     target => "/usr/src/redmine-${redmine::version}"
   }
 
-  Exec {
-    cmd => "/bin/chown -R ${redmine::params::apache_user}.${redmine::params::apache_group} /usr/src/redmine-${redmine::version}"
+  file { "/usr/src/redmine-${redmine::version}":
+    ensure => 'directory',
+    recurse => true,
   }
 
   file { "${redmine::webroot}/config/database.yml":
@@ -41,9 +42,6 @@ class redmine::config {
   file { "${redmine::webroot}/Gemfile":
     ensure  => 'present',
     source  => 'puppet:///modules/redmine/Gemfile',
-    mode    => '0644',
-    owner   => 'root',
-    group   => 'root',
   }
 
   apache::vhost { 'redmine':
